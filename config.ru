@@ -2,4 +2,4 @@ require 'bundler'
 Bundler.require
 
 require "./app"
-run MyApp
+run HangpersonApp
