@@ -12,7 +12,12 @@ class HangpersonGame
     @word = word
     @guesses = ''
     @wrong_guesses = ''
-    @word_with_guesses = "-" * @word.length
+    if @word != nil
+      @word_with_guesses = "-" * @word.length
+    else
+      @word_with_guesses = ''
+    end
+
   end
 
   def self.get_random_word
