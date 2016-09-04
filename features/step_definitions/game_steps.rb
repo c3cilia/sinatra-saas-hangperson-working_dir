@@ -86,4 +86,3 @@ When /^(?:|I )press "([^\"]*)"(?: within "([^\"]*)")?$/ do |button, selector|
     click_button(button)
   end
 end
-

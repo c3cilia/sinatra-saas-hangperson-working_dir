@@ -19,7 +19,8 @@
         '/lose'
       when /the show page/
         '/show'
-
+      when /the new page/
+        '/new'
       # Add more mappings here.
       # Here is an example that pulls values out of the Regexp:
       #

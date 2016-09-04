@@ -6,9 +6,15 @@
   </p>
 <% end %>
 
+<% if flash[:game_status_message] %>
+  <p>
+    <span class="error"><%= flash[:game_status_message] %></span>
+  </p>
+<% end %>
 <p>
   Wrong Guesses:
   <span class="guesses"><%= @game.wrong_guesses %></span>
+
 </p>
 
 <p>

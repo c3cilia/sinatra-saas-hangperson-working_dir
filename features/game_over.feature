@@ -16,3 +16,5 @@ Scenario: game over because I run out of guesses
   When I make the following guesses: i,s,u,c,k,h,a,r
   And I guess "d"
   Then I should see "Sorry, you lose!"
+
+

@@ -2,13 +2,15 @@ require 'sinatra/base'
 require 'sinatra/flash'
 require './lib/hangperson_game.rb'
 
+
 class HangpersonApp < Sinatra::Base
 
   enable :sessions
   register Sinatra::Flash
-  
+
   before do
     @game = session[:game] || HangpersonGame.new('')
+    response.set_cookie("game_status", "started")
   end
   
   after do
@@ -26,11 +28,8 @@ class HangpersonApp < Sinatra::Base
   end
   
   post '/create' do
-    # NOTE: don't change next line - it's needed by autograder!
     word = params[:word] || HangpersonGame.get_random_word
-    # NOTE: don't change previous line - it's needed by autograder!
-
-    @game = HangpersonGame.new(word)
+    @game = HangpersonGame.new(word)  
     redirect '/show'
   end
   
@@ -57,19 +56,37 @@ class HangpersonApp < Sinatra::Base
   get '/show' do
   	game_status = @game.check_win_or_lose
   	if game_status == :win
+      response.set_cookie 'game_status', 'ended'
   		redirect '/win'
   	elsif game_status == :lose
+      response.set_cookie 'game_status', 'ended'
   		redirect '/lose'
   	end
     erb :show 
   end
   
   get '/win' do
-    erb :win
+    if (@game.check_win_or_lose == :win) && (request.cookies['game_status'] == 'ended')
+      erb :win
+    else
+      if @game.word.length <= 0
+        redirect '/'
+      end 
+      flash[:game_status_message] = "Sorry!! don't navigate manually"
+      redirect '/show'
+    end
   end
   
   get '/lose' do
-    erb :lose 
+    if (@game.check_win_or_lose == :lose) && (request.cookies['game_status'] == 'ended')
+      erb :lose
+    else
+      if @game.word.length <= 0
+        redirect '/'
+      end 
+      flash[:game_status_message] = "Sorry!! don't navigate manually"
+      redirect '/show'
+    end 
   end
   
 end
